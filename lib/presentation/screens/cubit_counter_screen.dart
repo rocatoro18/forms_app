@@ -23,13 +23,16 @@ class _CubitCounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TAMBIEN AQUI SE PUEDEN ESTAR ESCUCHANDO LOS CAMBIOS QUE TIENE EL STATE
     // CON EL WATCH CADA VEZ QUE EL ESTADO CAMBIE, SE VA A REDIBUJAR ESO
-    final counterState = context.watch<CounterCubit>().state;
+    //final counterState = context.watch<CounterCubit>().state;
     // WATCH = REDIBUJAR
     // READ = LEER, IDEAL PARA USARLO DENTRO DE METODOS ONPRESSED
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cubit Counter: ${counterState.transactionCount}'),
+        // ESTAR PENDIENTE DE UN SOLO BLOC, UTILIZAR EL SELECT
+        title: context.select((CounterCubit value) {
+          return Text('Cubit Counter: ${value.state.transactionCount}');
+        }),
         actions: [
           IconButton(
               onPressed: () {
@@ -44,7 +47,7 @@ class _CubitCounterView extends StatelessWidget {
           // buildWhen - Contruir el widget solo cuando el CounterState es diferente al CounterState previo
           // NO FUNCIONA DE LA FORMA ESPERADA buildWhen: (previous, current) => current.counter != previous.counter,
           builder: (context, state) {
-            //print('counter cambio');
+            print('counter cambio');
             return Text('Counter value: ${state.counter}');
           },
         ),
