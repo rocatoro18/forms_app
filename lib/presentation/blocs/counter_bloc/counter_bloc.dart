@@ -9,11 +9,14 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   CounterBloc() : super(const CounterState()) {
     // CUERPO DEL CONSTRUCTOR
     // HANDLER O MANEJADOR DE UN CounterEvent
-    on<CounterIncreased>((event, emit) {
-      // EMISION DE UN NUEVO EVENTO
-      emit(state.copyWith(
-          counter: state.counter + event.value,
-          transactionCount: state.transactionCount + 1));
-    });
+    // HANDLER DE EVENTO
+    on<CounterIncreased>(_onCounterIncreased);
+  }
+
+  void _onCounterIncreased(CounterIncreased event, Emitter<CounterState> emit) {
+    // EMISION DE UN NUEVO EVENTO
+    emit(state.copyWith(
+        counter: state.counter + event.value,
+        transactionCount: state.transactionCount + 1));
   }
 }
