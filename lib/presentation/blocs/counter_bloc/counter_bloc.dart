@@ -25,4 +25,14 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     // EMISION DE UN NUEVO EVENTO
     emit(state.copyWith(counter: 0));
   }
+
+  // DISPARAR EVENTOS DENTRO DEL BLOC
+  void increaseBy([int value = 1]) {
+    add(CounterIncreased(value));
+  }
+
+  // DISPARAR EVENTOS DENTRO DEL BLOC
+  void resetCounter() {
+    add(CounterReset());
+  }
 }
