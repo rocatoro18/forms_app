@@ -11,6 +11,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     // HANDLER O MANEJADOR DE UN CounterEvent
     // HANDLER DE EVENTO
     on<CounterIncreased>(_onCounterIncreased);
+    on<CounterReset>(_onCounterReset);
   }
 
   void _onCounterIncreased(CounterIncreased event, Emitter<CounterState> emit) {
@@ -18,5 +19,10 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
     emit(state.copyWith(
         counter: state.counter + event.value,
         transactionCount: state.transactionCount + 1));
+  }
+
+  void _onCounterReset(CounterReset event, Emitter<CounterState> emit) {
+    // EMISION DE UN NUEVO EVENTO
+    emit(state.copyWith(counter: 0));
   }
 }
