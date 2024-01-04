@@ -119,8 +119,8 @@ class _RegisterFormState extends State<_RegisterForm> {
             FilledButton.tonalIcon(
                 onPressed: () {
                   // HACER LAS VALIDACIONES DEL FORMULARIO
-                  final isValid = _formKey.currentState!.validate();
-                  if (!isValid) return;
+                  //final isValid = _formKey.currentState!.validate();
+                  //if (!isValid) return;
                   //print('$username, $email, $password');
                   registerCubit.onSubmit();
                 },
