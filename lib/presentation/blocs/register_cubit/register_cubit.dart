@@ -7,7 +7,7 @@ class RegisterCubit extends Cubit<RegisterFormState> {
   RegisterCubit() : super(const RegisterFormState());
 
   void onSubmit() {
-    print('Submit: $state');
+    print('Cubit submit: $state');
   }
 
   void usernameChanged(String value) {
