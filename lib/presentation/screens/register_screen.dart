@@ -51,6 +51,7 @@ class _RegisterForm extends StatelessWidget {
     // REFERENCIA AL CUBIT
     final registerCubit = context.watch<RegisterCubit>();
     final username = registerCubit.state.username;
+    final email = registerCubit.state.email;
     final password = registerCubit.state.password;
 
     return Form(
@@ -79,13 +80,16 @@ class _RegisterForm extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         CustomTextFormField(
-            label: 'Correo electrónico',
-            onChange: (value) {
-              registerCubit.emailChanged(value);
-              // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
-              // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
-              //_formKey.currentState?.validate();
-            },
+          label: 'Correo electrónico',
+          onChange: (value) {
+            registerCubit.emailChanged(value);
+            // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
+            // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
+            //_formKey.currentState?.validate();
+          },
+          errorMessage: email.errorMessage,
+          /*
+          ESTE VALIDATOR NO SERA NECESARIO CON BLOC/CUBIT
             validator: (value) {
               if (value == null || value.isEmpty) return 'Campo requerido';
               if (value.trim().isEmpty) return 'Campo requerido';
@@ -96,7 +100,9 @@ class _RegisterForm extends StatelessWidget {
                 return 'No tiene formato de correo';
               }
               return null;
-            }),
+            }
+            */
+        ),
         const SizedBox(height: 20),
         CustomTextFormField(
           label: 'Contraseña',

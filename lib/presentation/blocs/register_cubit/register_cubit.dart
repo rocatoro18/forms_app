@@ -14,10 +14,12 @@ class RegisterCubit extends Cubit<RegisterFormState> {
         // SE HACE ESTO, PARA DECIRLE AL INPUT QUE ENSUCIE LA DATA CON EL
         // VALOR QUE TIENE EL USUARIO (.DIRTY) EN VEZ DE (.PURE)
         username: Username.dirty(state.username.value),
+        email: Email.dirty(state.email.value),
         password: Password.dirty(state.password.value),
-        isValid: Formz.validate([state.username, state.password])));
+        isValid:
+            Formz.validate([state.username, state.email, state.password])));
 
-    print('Cubit submit: $state');
+    //print('Cubit submit: $state');
   }
 
   void usernameChanged(String value) {
@@ -26,11 +28,14 @@ class RegisterCubit extends Cubit<RegisterFormState> {
         username: username,
         // SE MANDAN TODOS LOS CAMPOS, PARA SABER SI ES VALIDO O NO EL
         // FORMULARIO
-        isValid: Formz.validate([username, state.password])));
+        isValid: Formz.validate([username, state.password, state.email])));
   }
 
   void emailChanged(String value) {
-    emit(state.copyWith(email: value));
+    final email = Email.dirty(value);
+    emit(state.copyWith(
+        email: email,
+        isValid: Formz.validate([email, state.password, state.username])));
   }
 
   void passwordChanged(String value) {
@@ -39,6 +44,6 @@ class RegisterCubit extends Cubit<RegisterFormState> {
         password: password,
         // SE MANDAN TODOS LOS CAMPOS, PARA SABER SI ES VALIDO O NO EL
         // FORMULARIO
-        isValid: Formz.validate([password, state.username])));
+        isValid: Formz.validate([password, state.username, state.email])));
   }
 }
