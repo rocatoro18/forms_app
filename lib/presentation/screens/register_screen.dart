@@ -43,90 +43,92 @@ class _RegisterView extends StatelessWidget {
   }
 }
 
-class _RegisterForm extends StatefulWidget {
+class _RegisterForm extends StatelessWidget {
   const _RegisterForm();
-
-  @override
-  State<_RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<_RegisterForm> {
-  // CON ESTO TENGO EL CONTROL DE TODO EL FORMULARIO BASADO EN EL KEY
-  final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     // REFERENCIA AL CUBIT
     final registerCubit = context.watch<RegisterCubit>();
+    final username = registerCubit.state.username;
+    final password = registerCubit.state.password;
 
     return Form(
-        key: _formKey,
+        //key: _formKey,
         child: Column(
-          children: [
-            CustomTextFormField(
-              label: 'Nombre de usuario',
-              //onChange: registerCubit.usernameChanged,
-              onChange: (value) {
-                registerCubit.usernameChanged(value);
-                // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
-                // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
-                _formKey.currentState?.validate();
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Campo requerido';
-                if (value.trim().isEmpty) return 'Campo requerido';
-                if (value.length < 6) return 'Mas de 6 letras';
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-            CustomTextFormField(
-                label: 'Correo electrónico',
-                onChange: (value) {
-                  registerCubit.emailChanged(value);
-                  // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
-                  // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
-                  _formKey.currentState?.validate();
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Campo requerido';
-                  if (value.trim().isEmpty) return 'Campo requerido';
-                  final emailRegExp = RegExp(
-                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                  );
-                  if (!emailRegExp.hasMatch(value)) {
-                    return 'No tiene formato de correo';
-                  }
-                  return null;
-                }),
-            const SizedBox(height: 20),
-            CustomTextFormField(
-                label: 'Contraseña',
-                obscureText: true,
-                onChange: (value) {
-                  registerCubit.passwordChanged(value);
-                  // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
-                  // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
-                  _formKey.currentState?.validate();
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Campo requerido';
-                  if (value.trim().isEmpty) return 'Campo requerido';
-                  if (value.length < 6) return 'Mas de 6 letras';
-                  return null;
-                }),
-            const SizedBox(height: 20),
-            FilledButton.tonalIcon(
-                onPressed: () {
-                  // HACER LAS VALIDACIONES DEL FORMULARIO
-                  //final isValid = _formKey.currentState!.validate();
-                  //if (!isValid) return;
-                  //print('$username, $email, $password');
-                  registerCubit.onSubmit();
-                },
-                icon: const Icon(Icons.save),
-                label: const Text('Crear Usuario'))
-          ],
-        ));
+      children: [
+        CustomTextFormField(
+          label: 'Nombre de usuario',
+          //onChange: registerCubit.usernameChanged,
+          onChange: (value) {
+            registerCubit.usernameChanged(value);
+            // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
+            // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
+            //_formKey.currentState?.validate();
+          },
+          errorMessage: username.errorMessage,
+          /*
+          ESTE VALIDATOR NO SERA NECESARIO CON BLOC/CUBIT
+          validator: (value) {
+            if (value == null || value.isEmpty) return 'Campo requerido';
+            if (value.trim().isEmpty) return 'Campo requerido';
+            if (value.length < 6) return 'Mas de 6 letras';
+            return null;
+          },
+          */
+        ),
+        const SizedBox(height: 10),
+        CustomTextFormField(
+            label: 'Correo electrónico',
+            onChange: (value) {
+              registerCubit.emailChanged(value);
+              // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
+              // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
+              //_formKey.currentState?.validate();
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Campo requerido';
+              if (value.trim().isEmpty) return 'Campo requerido';
+              final emailRegExp = RegExp(
+                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              );
+              if (!emailRegExp.hasMatch(value)) {
+                return 'No tiene formato de correo';
+              }
+              return null;
+            }),
+        const SizedBox(height: 20),
+        CustomTextFormField(
+          label: 'Contraseña',
+          obscureText: true,
+          onChange: (value) {
+            registerCubit.passwordChanged(value);
+            // CADA QUE LA PERSONA HACE UN CAMBIO EN EL INPUT, CON ESTA INSTRUCCION SE
+            // VALIDA AUTOMATICAMENTE CADA UNO DE LOS CAMPOS
+            //_formKey.currentState?.validate();
+          },
+          errorMessage: password.errorMessage,
+          /*
+          ESTE VALIDATOR NO SERA NECESARIO CON BLOC/CUBIT
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Campo requerido';
+              if (value.trim().isEmpty) return 'Campo requerido';
+              if (value.length < 6) return 'Mas de 6 letras';
+              return null;
+            }*/
+        ),
+        const SizedBox(height: 20),
+        FilledButton.tonalIcon(
+            onPressed: () {
+              // HACER LAS VALIDACIONES DEL FORMULARIO
+              //final isValid = _formKey.currentState!.validate();
+              //if (!isValid) return;
+              //print('$username, $email, $password');
+              registerCubit.onSubmit();
+            },
+            icon: const Icon(Icons.save),
+            label: const Text('Crear Usuario'))
+      ],
+    ));
   }
 }

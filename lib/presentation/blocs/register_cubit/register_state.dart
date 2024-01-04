@@ -1,6 +1,6 @@
 part of 'register_cubit.dart';
 
-enum FormStatus { invalid, valid, validation, posting }
+enum FormStatus { invalid, valid, validating, posting }
 
 class RegisterFormState extends Equatable {
   final FormStatus formStatus;
